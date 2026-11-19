@@ -16,7 +16,7 @@ $storageDirs = [
 
 foreach ($storageDirs as $dir) {
     if (!is_dir($dir)) {
-        @mkdir($dir, 0755, true);
+        @mkdir($dir, 0777, true);
     }
 }
 
@@ -26,16 +26,20 @@ $targetDb = '/tmp/database.sqlite';
 
 if (file_exists($sourceDb) && !file_exists($targetDb)) {
     @copy($sourceDb, $targetDb);
+    @chmod($targetDb, 0666);
 }
 
 // Pastikan script name bersih untuk routing Laravel
 $_SERVER['SCRIPT_NAME'] = '/index.php';
 
-// Register Composer autoloader
+// Composer autoloader
 require __DIR__ . '/../vendor/autoload.php';
 
-// Bootstrap Laravel and handle the request
+// Bootstrap Laravel
 /** @var Application $app */
 $app = require_once __DIR__ . '/../bootstrap/app.php';
+
+// Arahkan storage path secara eksplisit ke /tmp/storage
+$app->useStoragePath('/tmp/storage');
 
 $app->handleRequest(Request::capture());
