@@ -1,6 +1,11 @@
 <?php
 
-// Pastikan direktori sementara /tmp tersedia untuk Laravel di lingkungan serverless Vercel
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
+
+define('LARAVEL_START', microtime(true));
+
+// Setup folder /tmp agar Laravel bisa menulis cache, session, views, dan logs di serverless Vercel
 $storageDirs = [
     '/tmp/storage/app/public',
     '/tmp/storage/framework/cache/data',
@@ -15,7 +20,7 @@ foreach ($storageDirs as $dir) {
     }
 }
 
-// Salin database SQLite demo ke /tmp agar dapat ditulisi (writable) oleh serverless lambda
+// Salin database SQLite demo ke /tmp agar writable oleh serverless lambda
 $sourceDb = __DIR__ . '/../database/database.sqlite';
 $targetDb = '/tmp/database.sqlite';
 
@@ -23,5 +28,14 @@ if (file_exists($sourceDb) && !file_exists($targetDb)) {
     @copy($sourceDb, $targetDb);
 }
 
-// Teruskan penanganan request ke public/index.php bawaan Laravel
-require __DIR__ . '/../public/index.php';
+// Pastikan script name bersih untuk routing Laravel
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+
+// Register Composer autoloader
+require __DIR__ . '/../vendor/autoload.php';
+
+// Bootstrap Laravel and handle the request
+/** @var Application $app */
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
+$app->handleRequest(Request::capture());
