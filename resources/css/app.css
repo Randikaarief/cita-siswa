@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../../app/Support/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/*
+| Palet diambil dari logo CITA SISWA: biru #036FFA dan kuning #FCCA10.
+| Biru untuk tombol dan tautan, kuning hanya sebagai aksen kecil.
+*/
+@theme {
+    --font-sans: 'Nunito', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+    --color-brand-50: #eef6ff;
+    --color-brand-100: #d9eaff;
+    --color-brand-200: #b9d7ff;
+    --color-brand-500: #036ffa;
+    --color-brand-600: #0258c8;
+    --color-brand-700: #0a449c;
+
+    --color-sun-100: #fff4c7;
+    --color-sun-400: #fcca10;
+    --color-sun-500: #e6b400;
+
+    --color-ink: #0f172a;
+    --color-muted: #475569;
+    --color-line: #dbe8f5;
+    --color-sky-bg: #f0f9ff;
+
+    --radius-card: 1.25rem;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        @apply bg-sky-bg text-ink font-sans antialiased;
+    }
+    a {
+        @apply transition-colors;
+    }
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-brand-500;
+    }
+    ::selection {
+        @apply bg-sun-400/60;
+    }
+}
+
+@layer components {
+    .page {
+        @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+    }
+
+    /* ----- Tombol ----- */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold
+               transition active:scale-[0.98] disabled:opacity-50 cursor-pointer;
+    }
+    .btn-primary {
+        @apply bg-brand-500 text-white shadow-sm hover:bg-brand-600;
+    }
+    .btn-accent {
+        @apply bg-sun-400 text-ink shadow-sm hover:bg-sun-500;
+    }
+    .btn-soft {
+        @apply bg-brand-50 text-brand-600 hover:bg-brand-100;
+    }
+    .btn-line {
+        @apply border border-line bg-white text-ink hover:bg-brand-50;
+    }
+    .btn-danger {
+        @apply bg-rose-600 text-white hover:bg-rose-700;
+    }
+    .btn-sm {
+        @apply rounded-lg px-3.5 py-1.5 text-xs;
+    }
+    .link {
+        @apply font-semibold text-brand-500 hover:text-brand-600 hover:underline underline-offset-2;
+    }
+    .link-danger {
+        @apply text-xs font-semibold text-rose-600 hover:underline underline-offset-2 cursor-pointer;
+    }
+
+    /* ----- Kartu ----- */
+    .card {
+        @apply rounded-card border border-line bg-white shadow-sm;
+    }
+    .card-pad {
+        @apply p-5 sm:p-6;
+    }
+    .card-hover {
+        @apply transition hover:-translate-y-0.5 hover:shadow-md hover:border-brand-200;
+    }
+
+    /* ----- Form ----- */
+    .label {
+        @apply mb-1.5 block text-sm font-semibold text-ink;
+    }
+    .input,
+    .select,
+    .textarea {
+        @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink
+               placeholder:text-slate-400 outline-none transition
+               focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15;
+    }
+    .help {
+        @apply mt-1.5 text-xs text-muted;
+    }
+    .error {
+        @apply mt-1.5 text-xs font-semibold text-rose-600;
+    }
+
+    /* ----- Label kecil ----- */
+    .badge {
+        @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap;
+    }
+    .badge-blue {
+        @apply bg-brand-50 text-brand-600;
+    }
+    .badge-yellow {
+        @apply bg-sun-100 text-amber-800;
+    }
+    .badge-gray {
+        @apply bg-slate-100 text-slate-600;
+    }
+    .badge-green {
+        @apply bg-emerald-50 text-emerald-700;
+    }
+    .badge-red {
+        @apply bg-rose-50 text-rose-700;
+    }
+
+    /* ----- Judul ----- */
+    .eyebrow {
+        @apply text-xs font-extrabold uppercase tracking-widest text-brand-500;
+    }
+    .h1 {
+        @apply text-3xl font-extrabold tracking-tight sm:text-4xl;
+    }
+    .h2 {
+        @apply text-2xl font-extrabold tracking-tight;
+    }
+    .h3 {
+        @apply text-lg font-extrabold;
+    }
+
+    /* ----- Pemberitahuan ----- */
+    .notice {
+        @apply rounded-xl border px-4 py-3 text-sm font-semibold;
+    }
+    .notice-info {
+        @apply border-brand-200 bg-brand-50 text-brand-700;
+    }
+    .notice-warn {
+        @apply border-amber-200 bg-sun-100/60 text-amber-900;
+    }
+    .notice-error {
+        @apply border-rose-200 bg-rose-50 text-rose-700;
+    }
+
+    /* ----- Tabel ----- */
+    .tbl-wrap {
+        @apply overflow-x-auto rounded-card border border-line bg-white shadow-sm;
+    }
+    .tbl {
+        @apply w-full text-sm;
+    }
+    .tbl thead {
+        @apply bg-brand-50 text-xs uppercase tracking-wide text-muted;
+    }
+    .tbl th {
+        @apply px-4 py-3 text-left font-bold;
+    }
+    .tbl td {
+        @apply px-4 py-3 align-middle;
+    }
+    .tbl tbody tr {
+        @apply border-t border-line;
+    }
+
+    /* ----- Navigasi ----- */
+    .nav-link {
+        @apply rounded-lg px-3 py-2 text-sm font-bold text-muted hover:bg-brand-50 hover:text-brand-600;
+    }
+    .nav-link-active {
+        @apply bg-brand-50 text-brand-600;
+    }
+
+    .avatar {
+        @apply inline-flex size-9 items-center justify-center rounded-full bg-brand-500 text-sm font-extrabold text-white;
+    }
+    .logo-tile {
+        @apply inline-flex size-12 shrink-0 items-center justify-center rounded-2xl text-sm font-extrabold;
+    }
+}
+
+/* Panah bawaan <details> disembunyikan, diganti ikon sendiri. */
+summary {
+    list-style: none;
+}
+summary::-webkit-details-marker {
+    display: none;
+}

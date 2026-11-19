@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            // Akun mentor/admin yang dibuat dengan password sementara wajib ganti password saat login pertama.
+            $table->boolean('must_change_password')->default(false);
+            // Akun dinonaktifkan oleh admin tidak bisa login.
+            $table->boolean('is_active')->default(true)->index();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['must_change_password', 'is_active']);
+        });
+    }
+};
