@@ -14,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
+
         // Catat kunjungan dari link kampanye SEBELUM pengalihan ke login.
         // Tanpa pengaturan urutan, middleware 'auth' berjalan lebih dulu dan tamu dari link Instagram tidak tercatat.
         $middleware->web(append: [CaptureUtm::class]);
