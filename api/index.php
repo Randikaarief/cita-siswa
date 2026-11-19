@@ -15,5 +15,13 @@ foreach ($storageDirs as $dir) {
     }
 }
 
+// Salin database SQLite demo ke /tmp agar dapat ditulisi (writable) oleh serverless lambda
+$sourceDb = __DIR__ . '/../database/database.sqlite';
+$targetDb = '/tmp/database.sqlite';
+
+if (file_exists($sourceDb) && !file_exists($targetDb)) {
+    @copy($sourceDb, $targetDb);
+}
+
 // Teruskan penanganan request ke public/index.php bawaan Laravel
 require __DIR__ . '/../public/index.php';
